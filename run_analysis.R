@@ -54,9 +54,11 @@ numActivities = length(uniqueActivities)
 
 filter_columns <- c("subject","activity")
 value_columns <- setdiff(colnames(all_data),filter_columns)
-
+melt_matrix = data[,value_columns]
+melt_header = paste(colnames(melt_matrix),sep=";",collapse = '')
 fileConn<-file("summary.txt","w")
-write("subject\tactvity\t#rows\tmean", fileConn, ,append=FALSE)
+outputheader = gsub(";","\t",paste("subject","actvity","#rows","mean",melt_header,sep="\t",collapse = ''))
+write(outputheader, fileConn, ,append=FALSE)
 for (s in 1:numSubjects) {
   for (a in 1:numActivities) {
   keep_rows = all_data[,"subject"]== s
